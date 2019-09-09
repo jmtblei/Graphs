@@ -112,7 +112,31 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        #create an empty set to store nodes that have been visited
+        visited = set()
+        #create an empty stack to and add a path (push/append) to the starting vertex
+        s = Stack()
+        s.push([starting_vertex])
+        #while the stack is not empty,
+        while s.size() > 0:
+            #remove (pop) the first vertex(path) 
+            path = s.pop()
+            #grab the last vertex from the path
+            current = path[-1]
+            #check if the vertex is our target destination
+            if current == destination_vertex:
+                return path
+            #iterate our set to check for visited nodes
+            if current not in visited:
+                #add them if visited
+                visited.add(current)
+                #add the neighboring nodes to the top of the stack (stack is lifo)
+                for neighbor in self.vertices[current]:
+                    #first copy the path
+                    copy = list(path)
+                    copy.append(neighbor)
+                    #add (push/append) the copy
+                    s.push(copy)
 
 
 
@@ -191,4 +215,4 @@ if __name__ == '__main__':
     #     [1, 2, 4, 6]
     #     [1, 2, 4, 7, 6]
     # '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
