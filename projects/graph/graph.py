@@ -38,6 +38,7 @@ class Graph:
             current = q.dequeue()
             #iterate through our set to check for visited nodes
             if current not in visited:
+                #print check
                 print(current)
                 #add them if visited
                 visited.add(current)
@@ -50,13 +51,23 @@ class Graph:
         beginning from starting_vertex.
         """
         #create an empty set to store nodes that have been visited
+        visited = set()
         #create an empty stack and add (push/append) the starting vertex
+        s = Stack()
+        s.push(starting_vertex)
         #while the stack is not empty,
+        while s.size() > 0:
             #remove (pop) the first vertex from the stack
+            current = s.pop()
             #iterate through our set to check for visited nodes
-            #add them if visited
-            #add the neighboring nodes to the top of the stack (stack is lifo)
-        pass  # TODO
+            if current not in visited:
+                #print check
+                print(current)
+                #add them if visited
+                visited.add(current)
+                #add the neighboring nodes to the top of the stack (stack is lifo)
+                for neighbor in self.vertices[current]:
+                    s.push(neighbor)
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -117,7 +128,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft(1)
+    graph.dft(1)
 
     '''
     Valid BFT paths:
