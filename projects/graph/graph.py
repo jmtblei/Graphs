@@ -81,7 +81,31 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        #create an empty set to store nodes that have been visited
+        visited = set()
+        #create an empty queue to and add a path (enqueue/append) to the starting vertex
+        q = Queue()
+        q.enqueue([starting_vertex])
+        #while the queue is not empty,
+        while q.size() > 0:
+            #remove (dequeue/pop) the first vertex(path) 
+            path = q.dequeue()
+            #grab the last vertex from the path
+            current = path[-1]
+            #check if the vertex is our target destination
+            if current == destination_vertex:
+                return path
+            #iterate our set to check for visited nodes
+            if current not in visited:
+                #add them if visited
+                visited.add(current)
+                #add the neighboring nodes to the back of the queue (queue is fifo)
+                for neighbor in self.vertices[current]:
+                    #first copy the path
+                    copy = list(path)
+                    copy.append(neighbor)
+                    #add (enqueue/append) the copy
+                    q.enqueue(copy)
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -147,22 +171,22 @@ if __name__ == '__main__':
     '''
     graph.bft(1)
 
-    '''
-    Valid DFT recursive paths:
-        1, 2, 3, 5, 4, 6, 7
-        1, 2, 3, 5, 4, 7, 6
-        1, 2, 4, 7, 6, 3, 5
-        1, 2, 4, 6, 3, 5, 7
-    '''
+    # '''
+    # Valid DFT recursive paths:
+    #     1, 2, 3, 5, 4, 6, 7
+    #     1, 2, 3, 5, 4, 7, 6
+    #     1, 2, 4, 7, 6, 3, 5
+    #     1, 2, 4, 6, 3, 5, 7
+    # '''
     # graph.dft_recursive(1)
 
-    # '''
-    # Valid BFS path:
-    #     [1, 2, 4, 6]
-    # '''
-    # print(graph.bfs(1, 6))
+    '''
+    Valid BFS path:
+        [1, 2, 4, 6]
+    '''
+    print(graph.bfs(1, 6))
 
-    # '''
+    '''
     # Valid DFS paths:
     #     [1, 2, 4, 6]
     #     [1, 2, 4, 7, 6]
