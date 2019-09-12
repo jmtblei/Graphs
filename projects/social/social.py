@@ -1,5 +1,19 @@
+import random
+import math
 
-
+#define Queue class
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 class User:
     def __init__(self, name):
         self.name = name
@@ -47,8 +61,22 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(numUsers):
+            self.addUser(f'Test{i}')
 
         # Create friendships
+        possible_friendships = []
+        for userID in self.users:
+            for friendID in range(userID + 1, self.lastID + 1):
+                #appending tuple of current user and possible friends after them in a list
+                possible_friendships.append((userID, friendID))
+        
+        #changes position of items in a list
+        random.shuffle(possible_friendships)
+
+        for i in range(0, math.floor(numUsers * avgFriendships / 2)):
+            friendship = possible_friendships[i]
+            self.addFriendship(friendship[0], friendship[1])
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,6 +89,31 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        #use BFS fo shortest friendship path
+        #check if friendships exist
+        if not self.friendships[userID]:
+            return "User doesn't have any friends"
+        #create new queue
+        q = Queue()
+        #enqueue with path to starting node
+        q.enqueue([userID])
+        while q.size() > 0:
+            #dequeue first path
+            path = q.dequeue()
+            #check if current is our target, getting last item in path block
+            current = path[-1]
+            #iterate our set to check for visited
+            if current not in visited:
+                #starting user doesnt needto be in dict
+                visited[current] = path
+                for friend in self.friendships[current]:
+                    if friend not in visited:
+                        #make copy of path
+                        copy = list(path)
+                        copy.append(friend)
+                        #enqueue the copy
+                        q.enqueue(copy)
         return visited
 
 
